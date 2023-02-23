@@ -1,5 +1,5 @@
 # poetic-pr
-An app using chatgpt to turn your pull request into a nice and sweet poem.  
+An app using chatgpt to turn your pull request into a nice and sweet poem.
 
 
 ## Prerequesites

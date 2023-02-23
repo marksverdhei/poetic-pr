@@ -1,16 +1,12 @@
-from revChatGPT.V1 import Chatbot
 import os
+
+from revChatGPT.V1 import Chatbot
 
 
 def auth_chatbot():
     token = os.getenv("PPR_ACCESS_TOKEN", None)
-    chatbot = Chatbot(
-        {
-            "access_token": token
-        }
-    )
+    chatbot = Chatbot({"access_token": token})
     return chatbot
-
 
 
 def generate_poem() -> str:
@@ -19,9 +15,8 @@ def generate_poem() -> str:
     """
     chatbot = auth_chatbot()
     data_iterator = chatbot.ask(starter_prompt)
-    
+
     for i in data_iterator:
         answer = i["message"]
-    
-    return answer
 
+    return answer

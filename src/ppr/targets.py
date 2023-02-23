@@ -1,6 +1,8 @@
 import os
 import shlex
+
 from . import prompt
+
 
 def auth(
     username=None,
@@ -41,7 +43,6 @@ def pr(title):
     poem = prompt.generate_poem()
     quoted_answer = shlex.quote(poem)
     os.system(f"gh pr create --title {title} -b {quoted_answer}")
-
 
 
 def ready(args):

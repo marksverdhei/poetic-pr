@@ -1,9 +1,9 @@
 import json
 import os
 import shlex
+import webbrowser
 
 from . import prompt
-import webbrowser
 
 
 def auth():
@@ -27,7 +27,7 @@ def auth():
 
     try:
         auth_json = json.loads(json_object)
-    except:
+    except Exception:
         print("Failed to parse data. Make sure to copy the entire string.")
         print("Otherwise, please submit an issue to our github repository: https://github.com/marksverdhei/poetic-pr")
         return 1

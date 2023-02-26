@@ -1,31 +1,46 @@
+import json
 import os
 import shlex
 
 from . import prompt
+import webbrowser
 
 
-def auth(
-    username=None,
-    password=None,
-    access_token=None,
-):
+def auth():
     """
     Specify either username and password, or access token
     """
-    if username is not None and password is not None:
-        credentials = {
-            "username": username,
-            "password": password,
-        }
-    elif access_token is not None:
-        credentials = {
-            "access_token": access_token,
-        }
-    else:
-        raise ValueError("You must pass passwords")
+    HOME = os.getenv("HOME", ".")
+    if not os.path.exists(f"{HOME}/.cache"):
+        os.mkdir(f"{HOME}/.cache")
 
-    for k, v in credentials.items():
-        os.environ["PPR_" + k.upper()] = v
+    if not os.path.exists(f"{HOME}/.cache/ppr"):
+        os.mkdir(f"{HOME}/.cache/ppr")
+
+    print(
+        "Opening https://chat.openai.com/api/auth/session in your default browser",
+        "Copy the content and paste it in the terminal.",
+        sep="\n",
+    )
+    webbrowser.open("https://chat.openai.com/api/auth/session")
+    json_object = input()
+
+    try:
+        auth_json = json.loads(json_object)
+    except:
+        print("Failed to parse data. Make sure to copy the entire string.")
+        print("Otherwise, please submit an issue to our github repository: https://github.com/marksverdhei/poetic-pr")
+        return 1
+
+    if "accessToken" not in auth_json:
+        print("Access token not found. Make sure to copy the entire string.")
+        print("Otherwise, please submit an issue to our github repository: https://github.com/marksverdhei/poetic-pr")
+        return 1
+
+    with open(f"{HOME}/.cache/ppr/access_token", "w+") as f:
+        f.write(auth_json["accessToken"])
+
+    print("Authorization successful!")
 
 
 def comment(number):

@@ -2,9 +2,18 @@ import os
 
 from revChatGPT.V1 import Chatbot
 
+HOME = os.getenv("HOME", ".")
+ACCESS_TOKEN_PATH = f"{HOME}/.cache/ppr/access_token"
+
 
 def auth_chatbot():
-    token = os.getenv("PPR_ACCESS_TOKEN", None)
+    if not os.path.exists(ACCESS_TOKEN_PATH):
+        print("No auth token found")
+        raise Exception()
+
+    with open(ACCESS_TOKEN_PATH) as f:
+        token = f.read()
+
     chatbot = Chatbot({"access_token": token})
     return chatbot
 
